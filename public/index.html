@@ -1324,10 +1324,294 @@
                 justify-content: center;
             }
         }
+
+        /* ── AUTH OVERLAY ────────────────────────────────── */
+        .auth-overlay {
+            position: fixed;
+            inset: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #0f172a;
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+            touch-action: none;
+            overflow: hidden;
+        }
+        .auth-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        .auth-card {
+            background: #1e293b;
+            border-radius: 24px;
+            padding: 40px 30px;
+            width: 100%;
+            max-width: 380px;
+            text-align: center;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .auth-icon-wrap {
+            margin: 0 auto 20px;
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, #f97316, #ea580c);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 25px -5px rgba(234, 88, 12, 0.5);
+        }
+        .auth-title {
+            font-family: var(--font-head);
+            font-size: 2rem;
+            color: #f8fafc;
+            margin-bottom: 8px;
+        }
+        .auth-subtitle {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-bottom: 30px;
+        }
+        .auth-btn {
+            width: 100%;
+            padding: 16px;
+            border-radius: 12px;
+            border: none;
+            font-family: var(--font-body);
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .fingerprint-btn {
+            background: #334155;
+            color: #f8fafc;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .fingerprint-btn .emoji {
+            font-size: 28px;
+            filter: drop-shadow(0 0 8px rgba(250, 204, 21, 0.5));
+        }
+        .fingerprint-btn:hover {
+            background: #3f3f46;
+        }
+        .face-btn {
+            background: #312e81;
+            color: #f8fafc;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .face-btn .emoji {
+            font-size: 28px;
+            filter: drop-shadow(0 0 8px rgba(99, 102, 241, 0.5));
+        }
+        .face-btn:hover {
+            background: #3730a3;
+        }
+        .auth-divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 24px 0;
+            color: #64748b;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+        }
+        .auth-divider::before,
+        .auth-divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #334155;
+        }
+        .auth-divider span {
+            padding: 0 10px;
+        }
+        .auth-input {
+            width: 100%;
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid #ea580c;
+            border-radius: 12px;
+            padding: 16px;
+            color: #f8fafc;
+            font-size: 1.1rem;
+            text-align: center;
+            margin-bottom: 16px;
+            outline: none;
+            letter-spacing: 0.2em;
+        }
+        .auth-input::placeholder {
+            color: #64748b;
+            letter-spacing: 0.05em;
+        }
+        .auth-input:focus {
+            box-shadow: 0 0 0 2px rgba(234, 88, 12, 0.3);
+        }
+        .unlock-btn {
+            background: linear-gradient(135deg, #ea580c, #c2410c);
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .unlock-btn:hover {
+            box-shadow: 0 10px 20px -5px rgba(234, 88, 12, 0.4);
+            transform: translateY(-2px);
+        }
+
+        /* Hide fingerprint biometric on desktop devices */
+        @media (min-width: 769px) {
+            #fingerprintBtn {
+                display: none !important;
+            }
+        }
+
+        /* ── FACE SCAN MODAL ────────────────────────────── */
+        .face-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.95);
+            z-index: 20000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .face-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .face-modal-content {
+            background: #1e293b;
+            border-radius: 24px;
+            padding: 30px;
+            width: 100%;
+            max-width: 360px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        .face-scanner-container {
+            position: relative;
+            width: 240px;
+            height: 240px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid #6366f1;
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+            background: #0f172a;
+        }
+        #faceVideo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: scaleX(-1);
+        }
+        .face-reticle {
+            position: absolute;
+            inset: 15px;
+            border: 2px dashed rgba(99, 102, 241, 0.6);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: rotate-reticle 10s linear infinite;
+        }
+        @keyframes rotate-reticle {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .face-laser {
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(to bottom, rgba(99, 102, 241, 0), #6366f1, rgba(99, 102, 241, 0));
+            box-shadow: 0 0 10px #6366f1;
+            pointer-events: none;
+            animation: laser-move 2s ease-in-out infinite;
+        }
+        @keyframes laser-move {
+            0%, 100% { top: 10%; }
+            50% { top: 90%; }
+        }
+        .face-status {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #cbd5e1;
+            margin-bottom: 24px;
+            min-height: 24px;
+        }
+        .cancel-btn {
+            background: #475569;
+            color: #f8fafc;
+        }
+        .cancel-btn:hover {
+            background: #64748b;
+        }
     </style>
 </head>
 
-<body>
+<body style="overflow: hidden;">
+
+    <!-- AUTH OVERLAY -->
+    <div class="auth-overlay" id="authOverlay">
+        <div class="auth-card">
+            <div class="auth-icon-wrap">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="rgba(255,255,255,0.2)" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                </svg>
+            </div>
+            <h2 class="auth-title">Admin Center</h2>
+            <p class="auth-subtitle">Secure access required</p>
+
+            <button class="auth-btn fingerprint-btn" id="fingerprintBtn" style="margin-bottom: 12px;">
+                <span class="emoji">👆</span>
+                Use Fingerprint
+            </button>
+
+            <button class="auth-btn face-btn" id="faceBtn">
+                <span class="emoji">👤</span>
+                Use Face Scan
+            </button>
+
+            <div class="auth-divider">
+                <span>OR ENTER PIN</span>
+            </div>
+
+            <input type="password" class="auth-input" id="pinInput" placeholder="Secure PIN" />
+            <button class="auth-btn unlock-btn" id="unlockBtn">UNLOCK DASHBOARD</button>
+        </div>
+    </div>
+
+    <!-- FACE SCAN MODAL -->
+    <div class="face-modal" id="faceModal">
+        <div class="face-modal-content">
+            <div class="face-scanner-container">
+                <video id="faceVideo" autoplay playsinline muted></video>
+                <div class="face-reticle"></div>
+                <div class="face-laser"></div>
+            </div>
+            <div class="face-status" id="faceStatus">Align your face inside the circle</div>
+            <button class="auth-btn cancel-btn" id="closeFaceBtn">Cancel</button>
+        </div>
+    </div>
 
     <!-- SIDEBAR -->
     <aside class="sidebar">
@@ -2289,6 +2573,314 @@
                 else { row.style.opacity = ''; btn.disabled = false; alert('Delete failed'); }
             } catch (err) { row.style.opacity = ''; btn.disabled = false; alert('Network error'); }
         }
+
+        /* ── AUTHENTICATION LOGIC ── */
+        const ADMIN_PIN = "OSVJA@123";
+
+        function unlockDashboard() {
+            document.getElementById('authOverlay').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        // PIN Unlock
+        document.getElementById('unlockBtn').addEventListener('click', () => {
+            const pin = document.getElementById('pinInput').value;
+            if (pin === ADMIN_PIN) {
+                unlockDashboard();
+            } else {
+                alert("Incorrect PIN.");
+                document.getElementById('pinInput').value = '';
+            }
+        });
+
+        // Helper functions for WebAuthn base64url encoding/decoding
+        function bufferToBase64url(buffer) {
+            const bytes = new Uint8Array(buffer);
+            let str = '';
+            for (let charCode of bytes) {
+                str += String.fromCharCode(charCode);
+            }
+            const base64String = btoa(str);
+            return base64String.replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
+        }
+
+        function base64urlToBuffer(base64url) {
+            const padding = '='.repeat((4 - base64url.length % 4) % 4);
+            const base64 = (base64url + padding).replace(/\-/g, '+').replace(/_/g, '/');
+            const rawData = atob(base64);
+            const buffer = new Uint8Array(rawData.length);
+            for (let i = 0; i < rawData.length; ++i) {
+                buffer[i] = rawData.charCodeAt(i);
+            }
+            return buffer.buffer;
+        }
+
+        // Fingerprint Button logic
+        document.getElementById('fingerprintBtn').addEventListener('click', async () => {
+            if (!window.PublicKeyCredential) {
+                alert("Biometrics not supported on this device/browser.");
+                return;
+            }
+
+            const existingCredId = localStorage.getItem('admin_bio_cred_id');
+
+            if (!existingCredId) {
+                // FIRST TIME REGISTRATION
+                let pin = document.getElementById('pinInput').value;
+                if (pin !== ADMIN_PIN) {
+                    pin = prompt("First-time setup: Please enter the Admin PIN to register your fingerprint:");
+                }
+                if (pin !== ADMIN_PIN) {
+                    if (pin !== null && pin !== '') alert("Incorrect PIN. Biometric registration denied.");
+                    return;
+                }
+
+                try {
+                    const userId = new Uint8Array(16);
+                    crypto.getRandomValues(userId);
+
+                    const publicKeyCredentialCreationOptions = {
+                        challenge: new Uint8Array(32), // dummy challenge
+                        rp: {
+                            name: "Admin Dashboard",
+                        },
+                        user: {
+                            id: userId,
+                            name: "admin",
+                            displayName: "Admin",
+                        },
+                        pubKeyCredParams: [
+                            { alg: -7, type: "public-key" }, // ES256
+                            { alg: -257, type: "public-key" } // RS256
+                        ],
+                        authenticatorSelection: {
+                            authenticatorAttachment: "platform",
+                            userVerification: "required"
+                        },
+                        timeout: 60000,
+                        attestation: "none"
+                    };
+
+                    const credential = await navigator.credentials.create({
+                        publicKey: publicKeyCredentialCreationOptions
+                    });
+
+                    // Save credential ID to allow subsequent logins
+                    localStorage.setItem('admin_bio_cred_id', bufferToBase64url(credential.rawId));
+                    alert("Fingerprint registered successfully!");
+                    unlockDashboard();
+
+                } catch (err) {
+                    console.error("Biometric registration failed:", err);
+                    alert("Registration failed or cancelled.");
+                }
+            } else {
+                // ALREADY REGISTERED: AUTHENTICATE
+                try {
+                    const publicKeyCredentialRequestOptions = {
+                        challenge: new Uint8Array(32), // dummy challenge
+                        allowCredentials: [{
+                            id: base64urlToBuffer(existingCredId),
+                            type: 'public-key',
+                        }],
+                        userVerification: "required",
+                        timeout: 60000
+                    };
+
+                    const assertion = await navigator.credentials.get({
+                        publicKey: publicKeyCredentialRequestOptions
+                    });
+
+                    // If successful, unlock
+                    unlockDashboard();
+                } catch (err) {
+                    console.error("Biometric auth failed:", err);
+                    alert("Authentication failed or cancelled.");
+                }
+            }
+        });
+
+        // Compare live grayscale array with stored template using translation shifts for robustness
+        function getGrayscaleArray(ctx) {
+            const imgData = ctx.getImageData(0, 0, 32, 32);
+            const data = imgData.data;
+            const gray = new Uint8Array(1024);
+            for (let i = 0; i < 1024; i++) {
+                const r = data[i * 4];
+                const g = data[i * 4 + 1];
+                const b = data[i * 4 + 2];
+                gray[i] = Math.round(0.299 * r + 0.587 * g + 0.114 * b);
+            }
+            return gray;
+        }
+
+        function compareTemplates(live, stored) {
+            let minDiff = Infinity;
+            const size = 32;
+
+            for (let dy = -2; dy <= 2; dy++) {
+                for (let dx = -2; dx <= 2; dx++) {
+                    let diffSum = 0;
+                    let count = 0;
+
+                    for (let y = 0; y < size; y++) {
+                        for (let x = 0; x < size; x++) {
+                            const ly = y + dy;
+                            const lx = x + dx;
+
+                            if (ly >= 0 && ly < size && lx >= 0 && lx < size) {
+                                const liveVal = live[ly * size + lx];
+                                const storedVal = stored[y * size + x];
+                                diffSum += Math.abs(liveVal - storedVal);
+                                count++;
+                            }
+                        }
+                    }
+
+                    const avgDiff = diffSum / count;
+                    if (avgDiff < minDiff) {
+                        minDiff = avgDiff;
+                    }
+                }
+            }
+            return minDiff;
+        }
+
+        let faceStream = null;
+        let scanAnimationId = null;
+
+        // Face Scan Button Click Handler
+        document.getElementById('faceBtn').addEventListener('click', async () => {
+            const modal = document.getElementById('faceModal');
+            const statusEl = document.getElementById('faceStatus');
+            const video = document.getElementById('faceVideo');
+
+            statusEl.textContent = "Requesting camera access...";
+            modal.classList.add('active');
+
+            try {
+                faceStream = await navigator.mediaDevices.getUserMedia({
+                    video: { width: 320, height: 320, facingMode: "user" }
+                });
+                video.srcObject = faceStream;
+
+                const offscreenCanvas = document.createElement('canvas');
+                offscreenCanvas.width = 32;
+                offscreenCanvas.height = 32;
+                const offscreenCtx = offscreenCanvas.getContext('2d');
+
+                let existingTemplate = localStorage.getItem('admin_face_template');
+
+                if (!existingTemplate) {
+                    // FIRST TIME REGISTRATION
+                    statusEl.textContent = "PIN Required for first-time setup...";
+                    let pin = document.getElementById('pinInput').value;
+                    if (pin !== ADMIN_PIN) {
+                        pin = prompt("First-time setup: Enter Admin PIN to register your face:");
+                    }
+                    if (pin !== ADMIN_PIN) {
+                        if (pin !== null && pin !== '') alert("Incorrect PIN. Face registration denied.");
+                        closeFaceScanner();
+                        return;
+                    }
+
+                    statusEl.textContent = "Scanning and registering face...";
+                    // Capture after a 1.5s delay to allow camera auto-exposure to settle
+                    setTimeout(() => {
+                        if (!faceStream) return;
+                        offscreenCtx.drawImage(video, 0, 0, 32, 32);
+                        const templateArray = getGrayscaleArray(offscreenCtx);
+                        localStorage.setItem('admin_face_template', JSON.stringify(Array.from(templateArray)));
+                        alert("Face registered successfully!");
+                        closeFaceScanner();
+                        unlockDashboard();
+                    }, 1500);
+
+                } else {
+                    // ALREADY REGISTERED: AUTHENTICATE
+                    const stored = new Uint8Array(JSON.parse(existingTemplate));
+                    statusEl.textContent = "Align face. Scanning...";
+                    
+                    let matchFound = false;
+                    let framesMatchedCount = 0;
+                    const startTime = Date.now();
+
+                    const scanLoop = () => {
+                        if (matchFound || !faceStream) return;
+
+                        // Timeout after 10s
+                        if (Date.now() - startTime > 10000) {
+                            statusEl.textContent = "Face not recognized. Try again.";
+                            setTimeout(closeFaceScanner, 2000);
+                            return;
+                        }
+
+                        offscreenCtx.drawImage(video, 0, 0, 32, 32);
+                        const live = getGrayscaleArray(offscreenCtx);
+                        const diff = compareTemplates(live, stored);
+
+                        // A diff below 35 usually indicates high similarity
+                        if (diff < 35) {
+                            framesMatchedCount++;
+                            if (framesMatchedCount >= 3) { // Require 3 consecutive matches
+                                matchFound = true;
+                                statusEl.textContent = "ACCESS GRANTED! Unlocking...";
+                                statusEl.style.color = "var(--green)";
+                                document.querySelector('.face-scanner-container').style.borderColor = "var(--green)";
+                                setTimeout(() => {
+                                    closeFaceScanner();
+                                    unlockDashboard();
+                                    statusEl.style.color = "";
+                                    document.querySelector('.face-scanner-container').style.borderColor = "";
+                                }, 1000);
+                                return;
+                            }
+                        } else {
+                            framesMatchedCount = 0;
+                        }
+
+                        scanAnimationId = requestAnimationFrame(scanLoop);
+                    };
+
+                    // Delay starting scanning analysis for 800ms for camera setup
+                    setTimeout(() => {
+                        if (faceStream) scanAnimationId = requestAnimationFrame(scanLoop);
+                    }, 800);
+                }
+
+            } catch (err) {
+                console.error("Face scan error:", err);
+                statusEl.textContent = "Camera access denied or failed.";
+                setTimeout(closeFaceScanner, 2500);
+            }
+        });
+
+        function closeFaceScanner() {
+            if (faceStream) {
+                faceStream.getTracks().forEach(track => track.stop());
+                faceStream = null;
+            }
+            if (scanAnimationId) {
+                cancelAnimationFrame(scanAnimationId);
+                scanAnimationId = null;
+            }
+            document.getElementById('faceVideo').srcObject = null;
+            document.getElementById('faceModal').classList.remove('active');
+        }
+
+        document.getElementById('closeFaceBtn').addEventListener('click', closeFaceScanner);
+
+        // Hide fingerprint option on desktop/PC devices (only show in mobiles)
+        const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+        if (!isMobile) {
+            const fpBtn = document.getElementById('fingerprintBtn');
+            if (fpBtn) fpBtn.style.display = 'none';
+        }
+
+        // Prevent scrolling/bouncing on mobile devices when lock screen is open
+        document.getElementById('authOverlay').addEventListener('touchmove', (e) => {
+            e.preventDefault();
+        }, { passive: false });
 
         // Auto-refresh every 30 seconds
         loadDashboard();
