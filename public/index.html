@@ -1473,6 +1473,37 @@
             transform: translateY(-2px);
         }
 
+        .refresh-btn {
+            background: transparent;
+            color: #94a3b8;
+            border: 1px dashed rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            padding: 12px 16px;
+            font-size: 0.8rem;
+            font-family: var(--font-body);
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            margin-top: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .refresh-btn:hover {
+            color: #fca5a5;
+            background: rgba(239, 68, 68, 0.08);
+            border-color: rgba(239, 68, 68, 0.4);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.15);
+            transform: translateY(-1px);
+        }
+        .refresh-btn:active {
+            transform: translateY(0);
+        }
+
         /* Hide fingerprint biometric on desktop devices */
         @media (min-width: 769px) {
             #fingerprintBtn {
@@ -1589,6 +1620,10 @@
             <button class="auth-btn face-btn" id="faceBtn">
                 <span class="emoji">👤</span>
                 Use Face Scan
+            </button>
+
+            <button class="refresh-btn" id="refreshBiometricsBtn">
+                <span>🔄</span> Refresh Registrations
             </button>
 
             <div class="auth-divider">
@@ -2869,6 +2904,30 @@
         }
 
         document.getElementById('closeFaceBtn').addEventListener('click', closeFaceScanner);
+
+        // Refresh/Reset Biometrics with Admin PIN
+        document.getElementById('refreshBiometricsBtn').addEventListener('click', () => {
+            const pin = prompt("Please enter the Admin PIN to refresh/reset biometric profiles:");
+            if (pin === ADMIN_PIN) {
+                localStorage.removeItem('admin_bio_cred_id');
+                localStorage.removeItem('admin_face_template');
+                
+                const subtitle = document.querySelector('.auth-subtitle');
+                if (subtitle) {
+                    subtitle.textContent = "Biometrics successfully reset!";
+                    subtitle.style.color = "#38bdf8";
+                    subtitle.style.fontWeight = "600";
+                    setTimeout(() => {
+                        subtitle.textContent = "Secure access required";
+                        subtitle.style.color = "#94a3b8";
+                        subtitle.style.fontWeight = "normal";
+                    }, 5000);
+                }
+                alert("Biometric registration data cleared successfully! You can now re-register.");
+            } else if (pin !== null && pin !== '') {
+                alert("Incorrect PIN. Access denied.");
+            }
+        });
 
         // Hide fingerprint option on desktop/PC devices (only show in mobiles)
         const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
